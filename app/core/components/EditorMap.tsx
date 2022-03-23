@@ -6,6 +6,7 @@ import DrawControl from 'react-mapbox-gl-draw'
 
 import 'mapbox-gl/dist/mapbox-gl.css'
 import useEditorMap from '../hooks/useEditorMap'
+import { Box } from '@chakra-ui/react'
 
 const MapContainer = () => {
   const [data] = useEditorMap()
@@ -19,7 +20,7 @@ const MapContainer = () => {
   const drawRef = useRef<Control | undefined>(undefined)
 
   return (
-    <div className='map-grid'>
+    <Box h='100%' w='100%'>
       <Map
         className='map'
         zoom={[zoomValue]}
@@ -79,7 +80,7 @@ const MapContainer = () => {
           }}
         />
       </Map>
-    </div>
+    </Box>
   )
 }
 
