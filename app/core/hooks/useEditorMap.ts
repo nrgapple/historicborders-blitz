@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useRecoilValue } from 'recoil'
 import { processData } from '../util/constants'
-import { CountryData } from '../util/types'
-import { allDataState, currentYearState } from './editorState'
+import { allDataState, currentYearState } from '../state/editorState'
+import { CountryData } from './useData'
 
 const useEditorMap = () => {
   const allData = useRecoilValue(allDataState)
@@ -11,7 +11,6 @@ const useEditorMap = () => {
 
   useEffect(() => {
     if (allData && currentYear) {
-      console.log(allData)
       setData(processData(allData.find(x => x.year == currentYear)!.data))
     }
   }, [allData, currentYear])

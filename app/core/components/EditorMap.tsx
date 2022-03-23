@@ -1,13 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { GeoJSONLayer } from 'react-mapbox-gl'
 import MapboxGl, { Control } from 'mapbox-gl'
-import { useData } from '../hooks/useData'
 import Map from '../util/ReactMapBoxGl'
 import DrawControl from 'react-mapbox-gl-draw'
 
 import 'mapbox-gl/dist/mapbox-gl.css'
-import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
-import useEditorMap from '../state/useEditorMap'
+import useEditorMap from '../hooks/useEditorMap'
 
 const MapContainer = () => {
   const [data] = useEditorMap()
