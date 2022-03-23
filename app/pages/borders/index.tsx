@@ -116,7 +116,7 @@ const Viewer = ({ years, user, id, config, isGlobe: isGlobeProp }: DataProps) =>
             </>
           )}
           <MapContainer
-            year={convertYearString(mapBCFormat, years[index])}
+            year={convertYearString(mapBCFormat, years[index]!)}
             fullscreen={hide}
             user={user}
             id={id}

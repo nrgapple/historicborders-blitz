@@ -8708,6 +8708,11 @@ react-kapsule@^2.2:
     fromentries "^1.3.2"
     jerrypick "^1.0.4"
 
+react-mapbox-gl-draw@2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/react-mapbox-gl-draw/-/react-mapbox-gl-draw-2.0.4.tgz#476d70a6efc07c329fa61c11022bcdab60ac4b91"
+  integrity sha512-oaBdIlyu+g7PhLUvwnCsl/wvu+5tGB9I3RLjcrYLt6U1sUMzQJqplKtVxXRv9TZqRdNaAU5qNOP+dRs55QKjsA==
+
 react-mapbox-gl@5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/react-mapbox-gl/-/react-mapbox-gl-5.1.1.tgz#49e1ddf441c3ff9406d10ccd577ac5448d51584c"
