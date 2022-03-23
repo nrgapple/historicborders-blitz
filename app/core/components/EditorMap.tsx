@@ -5,6 +5,8 @@ import Map from '../util/ReactMapBoxGl'
 import DrawControl from 'react-mapbox-gl-draw'
 
 import 'mapbox-gl/dist/mapbox-gl.css'
+import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
+
 import useEditorMap from '../hooks/useEditorMap'
 import { Box } from '@chakra-ui/react'
 
@@ -18,6 +20,7 @@ const MapContainer = () => {
    * @example Use for the current draw features
    */
   const drawRef = useRef<Control | undefined>(undefined)
+  console.log({ data })
 
   return (
     <Box h='100%' w='100%'>
@@ -77,6 +80,12 @@ const MapContainer = () => {
             line_string: false,
             combine_features: false,
             uncombine_features: false,
+          }}
+          onDrawCreate={event => {
+            console.log({ event })
+          }}
+          onDrawUpdate={event => {
+            console.log({ update: event })
           }}
         />
       </Map>
