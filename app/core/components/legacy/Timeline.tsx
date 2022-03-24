@@ -8,24 +8,23 @@ interface TimelineProps {
   index: number
   onChange: (value: number) => void
   years: number[]
-  globe?: boolean
 }
 
-const Timeline = ({ index, onChange, years, globe }: TimelineProps) => (
+const Timeline = ({ index, onChange, years }: TimelineProps) => (
   <div className='timeline'>
     <div
       style={{
         width: '100%',
         fontSize: '14px',
-        color: `${!globe ? '#6930c3' : '#64dfdf'}`,
-        textShadow: `0px 0px 4px ${!globe ? '#64dfdf' : '#6930c3'}`,
+        color: '#64dfdf',
+        textShadow: `0px 0px 4px '#6930c3'`,
       }}
       className='timeline'
     >
       <HorizontalTimeline
         styles={{
-          background: `${!globe ? '#6930c3' : '#64dfdf'}`,
-          foreground: `${!globe ? '#6930c3' : '#64dfdf'}`,
+          background: '#64dfdf',
+          foreground: '#64dfdf',
           outline: hexToRgba('#000', 1),
         }}
         index={index}
