@@ -50,21 +50,6 @@ body {
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
-.globe {
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  top: 222px;
-  right: 15px;
-  height: 40px;
-  width: 40px;
-  font-size: 35px;
-  z-index: 1000;
-  cursor: pointer;
-  text-shadow: 2px 2px 4px #252525;
-}
-
 .help {
   position: absolute;
   display: flex;
@@ -91,28 +76,8 @@ body {
                                   supported by Chrome, Edge, Opera and Firefox */
 }
 
-.app-large {
-  display: grid;
-  grid-template-columns: 100%;
-  grid-template-rows: auto;
-  align-items: stretch;
-  height: 100%;
-}
-
 a {
   color: #80ffdb;
-}
-
-.nav-bar {
-  background-color: #6930c3;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.help-icon {
-  padding: 16px;
-  cursor: pointer;
 }
 
 .footer {
@@ -202,14 +167,8 @@ a {
   z-index: 1000;
 }
 
-.timeline {
-  color: black;
-  text-shadow: 0px 0px 2px #6930c3;
-  font-weight: 500;
-  height: 70px !important;
-}
-
-.timeline .timeline div div ul li {
+/* NEEDED */
+.timeline div div ul li {
   background-image: none !important;
 }
 
