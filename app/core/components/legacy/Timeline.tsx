@@ -9,7 +9,6 @@ interface TimelineProps {
   index: number
   onChange: (value: number) => void
   years: number[]
-  globe?: boolean
 }
 
 const Timeline = ({ index, onChange, years, globe }: TimelineProps) => (
@@ -26,8 +25,8 @@ const Timeline = ({ index, onChange, years, globe }: TimelineProps) => (
     >
       <HorizontalTimeline
         styles={{
-          background: `${!globe ? '#6930c3' : '#64dfdf'}`,
-          foreground: `${!globe ? '#6930c3' : '#64dfdf'}`,
+          background: '#6930c3',
+          foreground: '#6930c3',
           outline: hexToRgba('#000', 1),
         }}
         index={index}

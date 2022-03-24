@@ -1,6 +1,5 @@
 import { GetServerSideProps } from 'next'
 import { Octokit } from '@octokit/core'
-import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { ConfigType, GithubFileInfoType, MapMode } from 'app/core/util/types'
 import useKeyPress from 'app/core/hooks/useKeyPress'
@@ -32,19 +31,15 @@ interface DataProps {
   user: string
   id: string
   config: ConfigType
-  isGlobe: boolean
 }
 
-const Viewer = ({ years, user, id, config, isGlobe: isGlobeProp }: DataProps) => {
+const Viewer = ({ years, user, id, config }: DataProps) => {
   const [index, setIndex] = useState(0)
   const [hide, setHide] = useState(false)
-  const [help, setHelp] = useState(false)
   const [mounted, setMounted] = useState(false)
-  const [isGlobe, setIsGlobe] = useState(isGlobeProp)
   const isMobile = typeof window !== 'undefined' ? /Mobi|Android/i.test(navigator.userAgent) : false
   const aPress = useKeyPress('a')
   const dPress = useKeyPress('d')
-  const router = useRouter()
   const { isOpen, onToggle } = useDisclosure()
 
   useEffect(() => {
@@ -99,23 +94,6 @@ const Viewer = ({ years, user, id, config, isGlobe: isGlobeProp }: DataProps) =>
         >
           <Box className='noselect'>🔭</Box>
         </Box>
-        <Box
-          data-tip
-          data-for='globeTip'
-          data-delay-show='300'
-          className='globe'
-          onClick={() => {
-            setIsGlobe(!isGlobe)
-            router.replace({
-              //@ts-ignore
-              path: '',
-              query: { view: !isGlobe ? 'globe' : 'map' },
-            })
-          }}
-          style={{ top: hide ? '73px' : '155px' }}
-        >
-          <Box className='noselect'>{isGlobe ? '🗺' : '🌎'}</Box>
-        </Box>
         <Grid
           templateColumns='100%'
           templateRows={hide ? 'auto' : 'auto 0px'}
@@ -125,7 +103,7 @@ const Viewer = ({ years, user, id, config, isGlobe: isGlobeProp }: DataProps) =>
           {!hide && (
             <>
               <div className='timeline-container'>
-                <Timeline globe={isGlobe} index={index} onChange={setIndex} years={years} />
+                <Timeline index={index} onChange={setIndex} years={years} />
               </div>
             </>
           )}
@@ -145,10 +123,9 @@ const Viewer = ({ years, user, id, config, isGlobe: isGlobeProp }: DataProps) =>
 
 export default Viewer
 
-export const getServerSideProps: GetServerSideProps<DataProps> = async ({ query, params }) => {
+export const getServerSideProps: GetServerSideProps<DataProps> = async () => {
   const user = 'aourednik'
   const id = 'historical-basemaps'
-  const isGlobe = query?.view === 'globe' ? true : false
   try {
     const octokit = new Octokit({ auth: githubToken })
     const config: ConfigType = {
@@ -156,7 +133,6 @@ export const getServerSideProps: GetServerSideProps<DataProps> = async ({ query,
       description: 'example.',
     }
     const fileResp = await octokit.request(`/repos/${user}/${id}/contents/geojson`)
-    console.log('fileresp', fileResp)
     const files: GithubFileInfoType[] = fileResp.data
     const years = files
       .filter(x => x.name.endsWith('.geojson'))
@@ -169,15 +145,12 @@ export const getServerSideProps: GetServerSideProps<DataProps> = async ({ query,
         user: user,
         id: id,
         config,
-        isGlobe,
       } as DataProps,
     }
   } catch (e) {
     console.log(e)
   }
   return {
-    props: {
-      isGlobe,
-    } as DataProps,
+    props: {} as DataProps,
   }
 }
