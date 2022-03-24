@@ -12,7 +12,6 @@ import {
   mod,
 } from 'app/core/util/constants'
 import ReactTooltip from 'react-tooltip'
-import NavBar from 'app/core/components/legacy/NavBar'
 import Timeline from 'app/core/components/legacy/Timeline'
 import MapContainer from 'app/core/components/legacy/ViewerMap'
 import Footer from 'app/core/components/legacy/Footer'
@@ -22,10 +21,9 @@ import {
   DrawerBody,
   DrawerCloseButton,
   DrawerContent,
-  DrawerOverlay,
   useDisclosure,
 } from '@chakra-ui/react'
-import { MapEventPopover } from 'app/core/components/MapEventPopover'
+import { MapEventForm } from 'app/map-events/components/MapEventForm'
 
 interface DataProps {
   years: number[]
@@ -72,7 +70,7 @@ const Viewer = ({ years, user, id, config, isGlobe: isGlobeProp }: DataProps) =>
           <DrawerContent>
             <DrawerCloseButton />
             <DrawerBody>
-              <MapEventPopover />
+              <MapEventForm />
             </DrawerBody>
           </DrawerContent>
         </Drawer>

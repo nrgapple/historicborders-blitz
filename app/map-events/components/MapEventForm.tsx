@@ -2,8 +2,8 @@ import { Input, VStack } from '@chakra-ui/react'
 import createMapEventResolver from 'app/map-events/mutations/createMapEvent'
 import { CreateMapEventSchema } from 'app/map-events/mutations/validations'
 import { useMutation } from 'blitz'
-import Form from './Form'
-import LabeledTextField from './LabeledTextField'
+import Form from '../../core/components/Form'
+import LabeledTextField from '../../core/components/LabeledTextField'
 
 interface Props {
   feature?: string
@@ -11,7 +11,7 @@ interface Props {
   endDate?: Date
 }
 
-export const MapEventPopover = ({ feature, startDate, endDate }: Props) => {
+export const MapEventForm = ({ feature, startDate, endDate }: Props) => {
   const [createMapEvent] = useMutation(createMapEventResolver)
 
   return (
