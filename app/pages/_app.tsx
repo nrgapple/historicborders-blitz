@@ -18,16 +18,14 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <ChakraProvider>
-      <ChakraProvider>
-        <RecoilRoot>
-          <ErrorBoundary
-            FallbackComponent={RootErrorFallback}
-            onReset={useQueryErrorResetBoundary().reset}
-          >
-            {getLayout(<Component {...pageProps} />)}
-          </ErrorBoundary>
-        </RecoilRoot>
-      </ChakraProvider>
+      <RecoilRoot>
+        <ErrorBoundary
+          FallbackComponent={RootErrorFallback}
+          onReset={useQueryErrorResetBoundary().reset}
+        >
+          {getLayout(<Component {...pageProps} />)}
+        </ErrorBoundary>
+      </RecoilRoot>
     </ChakraProvider>
   )
 }
