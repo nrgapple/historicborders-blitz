@@ -4,16 +4,26 @@ import { z } from 'zod'
 
 const UpdateMapEvent = z.object({
   id: z.number(),
-  name: z.string(),
+  label: z.string(),
+  body: z.string(),
+  startDate: z.date(),
+  endDate: z.date().optional(),
+  feature: z.string(),
 })
 
 export default resolver.pipe(
   resolver.zod(UpdateMapEvent),
   resolver.authorize(),
-  async ({ id, ...data }) => {
-    // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-    const mapEvent = await db.mapEvent.update({ where: { id }, data })
-
+  async ({ id, ...data }, { session }) => {
+    const mapEvent = await db.mapEvent.update({
+      where: {
+        id_userId: {
+          id,
+          userId: session.userId,
+        },
+      },
+      data,
+    })
     return mapEvent
   }
 )

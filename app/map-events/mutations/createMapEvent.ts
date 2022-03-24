@@ -3,12 +3,20 @@ import db from 'db'
 import { z } from 'zod'
 
 const CreateMapEvent = z.object({
-  name: z.string(),
+  label: z.string(),
+  body: z.string(),
+  startDate: z.date(),
+  endDate: z.date().optional(),
+  feature: z.string(),
 })
 
-export default resolver.pipe(resolver.zod(CreateMapEvent), resolver.authorize(), async input => {
-  // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-  const mapEvent = await db.mapEvent.create({ data: input })
-
-  return mapEvent
-})
+export default resolver.pipe(
+  resolver.zod(CreateMapEvent),
+  resolver.authorize(),
+  async (data, { session }) => {
+    const mapEvent = await db.mapEvent.create({
+      data: { ...data, userId: session.userId },
+    })
+    return mapEvent
+  }
+)

@@ -14,18 +14,20 @@ generator client {
 // --------------------------------------
 
 model MapEvent {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
   feature   Json
   label     String
   body      String
   startDate DateTime
-  endDate   DateTime
-  isPublic  Boolean
+  endDate   DateTime?
+  isPublic  Boolean   @default(true)
 
   user   User @relation(fields: [userId], references: [id])
   userId Int
+
+  @@unique([id, userId])
 }
 
 model User {

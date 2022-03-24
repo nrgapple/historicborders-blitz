@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "MapEvent" ALTER COLUMN "endDate" DROP NOT NULL,
+ALTER COLUMN "isPublic" SET DEFAULT true;
