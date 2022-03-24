@@ -1,3 +1,4 @@
+import { Box } from '@chakra-ui/react'
 import { convertYearString, timelineBCFormat } from 'app/core/util/constants'
 import hexToRgba from 'hex-rgba'
 import React from 'react'
@@ -10,21 +11,22 @@ interface TimelineProps {
   years: number[]
 }
 
-const Timeline = ({ index, onChange, years }: TimelineProps) => (
-  <div className='timeline'>
-    <div
-      style={{
-        width: '100%',
-        fontSize: '14px',
-        color: '#64dfdf',
-        textShadow: `0px 0px 4px '#6930c3'`,
-      }}
+const Timeline = ({ index, onChange, years, globe }: TimelineProps) => (
+  <Box color='black' textShadow='0px 0px 2px #6930c3' fontWeight='500' h='70px !important'>
+    <Box
+      textShadow='0px 0px 4px #64dfdf'
+      fontSize='14px'
+      h='70px !important'
+      w='full'
+      color='#6930c3'
+      height='70px !important'
+      fontWeight='500'
       className='timeline'
     >
       <HorizontalTimeline
         styles={{
-          background: '#64dfdf',
-          foreground: '#64dfdf',
+          background: '#6930c3',
+          foreground: '#6930c3',
           outline: hexToRgba('#000', 1),
         }}
         index={index}
@@ -38,11 +40,11 @@ const Timeline = ({ index, onChange, years }: TimelineProps) => (
         linePadding={50}
         isOpenEnding={false}
         isOpenBeginning={false}
-        minEventPadding={-20}
+        minEventPadding={-10}
         maxEventPadding={3}
       />
-    </div>
-  </div>
+    </Box>
+  </Box>
 )
 
 export default Timeline
