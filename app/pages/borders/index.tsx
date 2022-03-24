@@ -2,7 +2,7 @@ import { GetServerSideProps } from 'next'
 import { Octokit } from '@octokit/core'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { ConfigType, GithubFileInfoType } from 'app/core/util/types'
+import { ConfigType, GithubFileInfoType, MapMode } from 'app/core/util/types'
 import useKeyPress from 'app/core/hooks/useKeyPress'
 import {
   convertYearString,
@@ -17,10 +17,12 @@ import MapContainer from 'app/core/components/legacy/ViewerMap'
 import Footer from 'app/core/components/legacy/Footer'
 import Layout from 'app/core/components/legacy/Layout'
 import {
+  Box,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
   DrawerContent,
+  Grid,
   useDisclosure,
 } from '@chakra-ui/react'
 import { MapEventForm } from 'app/map-events/components/MapEventForm'
@@ -61,7 +63,7 @@ const Viewer = ({ years, user, id, config, isGlobe: isGlobeProp }: DataProps) =>
     }
   }, [aPress])
 
-  if (!(years && user && id && config)) return <div>Not a valid timeline. Check your url.</div>
+  if (!(years && user && id && config)) return <Box>Not a valid timeline. Check your url.</Box>
 
   return (
     <>
@@ -85,18 +87,9 @@ const Viewer = ({ years, user, id, config, isGlobe: isGlobeProp }: DataProps) =>
             >
               {hide ? 'Show Timeline' : 'Hide Timeline'}
             </ReactTooltip>
-            <ReactTooltip
-              resizeHide={false}
-              id='globeTip'
-              place='left'
-              effect='solid'
-              globalEventOff={isMobile ? 'click' : undefined}
-            >
-              {isGlobe ? 'Switch to Map View' : 'Switch to Globe View'}
-            </ReactTooltip>
           </>
         )}
-        <div
+        <Box
           data-tip
           data-for='fullscreenTip'
           data-delay-show='300'
@@ -104,9 +97,9 @@ const Viewer = ({ years, user, id, config, isGlobe: isGlobeProp }: DataProps) =>
           onClick={() => setHide(!hide)}
           style={{ top: hide ? '16px' : '95px' }}
         >
-          <div className='noselect'>🔭</div>
-        </div>
-        <div
+          <Box className='noselect'>🔭</Box>
+        </Box>
+        <Box
           data-tip
           data-for='globeTip'
           data-delay-show='300'
@@ -121,9 +114,14 @@ const Viewer = ({ years, user, id, config, isGlobe: isGlobeProp }: DataProps) =>
           }}
           style={{ top: hide ? '73px' : '155px' }}
         >
-          <div className='noselect'>{isGlobe ? '🗺' : '🌎'}</div>
-        </div>
-        <div className={`${hide ? 'app-large' : 'app'}`}>
+          <Box className='noselect'>{isGlobe ? '🗺' : '🌎'}</Box>
+        </Box>
+        <Grid
+          templateColumns='100%'
+          templateRows={hide ? 'auto' : 'auto 0px'}
+          h='full'
+          alignItems='stretch'
+        >
           {!hide && (
             <>
               <div className='timeline-container'>
@@ -136,10 +134,10 @@ const Viewer = ({ years, user, id, config, isGlobe: isGlobeProp }: DataProps) =>
             fullscreen={hide}
             user={user}
             id={id}
-            threeD={isGlobe}
+            mode={MapMode.VIEW}
           />
           {!hide && <Footer dataUrl={`https://github.com/aourednik/historical-basemaps`} />}
-        </div>
+        </Grid>
       </Layout>
     </>
   )
