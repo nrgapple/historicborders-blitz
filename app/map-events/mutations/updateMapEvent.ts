@@ -2,7 +2,7 @@ import { resolver } from 'blitz'
 import db from 'db'
 import { z } from 'zod'
 
-const UpdateMapEvent = z.object({
+export const UpdateMapEvent = z.object({
   id: z.number(),
   label: z.string(),
   body: z.string(),

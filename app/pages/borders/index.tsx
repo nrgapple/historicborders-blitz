@@ -17,6 +17,15 @@ import Timeline from 'app/core/components/legacy/Timeline'
 import MapContainer from 'app/core/components/legacy/ViewerMap'
 import Footer from 'app/core/components/legacy/Footer'
 import Layout from 'app/core/components/legacy/Layout'
+import {
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerOverlay,
+  useDisclosure,
+} from '@chakra-ui/react'
+import { MapEventPopover } from 'app/core/components/MapEventPopover'
 
 interface DataProps {
   years: number[]
@@ -36,6 +45,7 @@ const Viewer = ({ years, user, id, config, isGlobe: isGlobeProp }: DataProps) =>
   const aPress = useKeyPress('a')
   const dPress = useKeyPress('d')
   const router = useRouter()
+  const { isOpen, onToggle } = useDisclosure()
 
   useEffect(() => {
     setMounted(true)
@@ -58,6 +68,14 @@ const Viewer = ({ years, user, id, config, isGlobe: isGlobeProp }: DataProps) =>
   return (
     <>
       <Layout title={config.name} url={`https://historyborders.app`}>
+        <Drawer isOpen={isOpen} onClose={onToggle}>
+          <DrawerContent>
+            <DrawerCloseButton />
+            <DrawerBody>
+              <MapEventPopover />
+            </DrawerBody>
+          </DrawerContent>
+        </Drawer>
         {mounted && (
           <>
             <ReactTooltip
