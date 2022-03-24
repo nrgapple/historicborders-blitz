@@ -16,6 +16,7 @@ import MapContainer from 'app/core/components/legacy/ViewerMap'
 import Footer from 'app/core/components/legacy/Footer'
 import Layout from 'app/core/components/legacy/Layout'
 import {
+  Avatar,
   Box,
   Drawer,
   DrawerBody,
@@ -23,6 +24,7 @@ import {
   DrawerContent,
   Grid,
   useDisclosure,
+  VStack,
 } from '@chakra-ui/react'
 import { MapEventForm } from 'app/map-events/components/MapEventForm'
 
@@ -72,17 +74,15 @@ const Viewer = ({ years, user, id, config }: DataProps) => {
           </DrawerContent>
         </Drawer>
         {mounted && (
-          <>
-            <ReactTooltip
-              resizeHide={false}
-              id='fullscreenTip'
-              place='left'
-              effect='solid'
-              globalEventOff={isMobile ? 'click' : undefined}
-            >
-              {hide ? 'Show Timeline' : 'Hide Timeline'}
-            </ReactTooltip>
-          </>
+          <ReactTooltip
+            resizeHide={false}
+            id='fullscreenTip'
+            place='left'
+            effect='solid'
+            globalEventOff={isMobile ? 'click' : undefined}
+          >
+            {hide ? 'Show Timeline' : 'Hide Timeline'}
+          </ReactTooltip>
         )}
         <Box
           data-tip
@@ -93,6 +93,9 @@ const Viewer = ({ years, user, id, config }: DataProps) => {
           style={{ top: hide ? '16px' : '95px' }}
         >
           <Box className='noselect'>🔭</Box>
+        </Box>
+        <Box className='fullscreen' style={{ top: hide ? '73px' : '155px' }}>
+          <Avatar size={'sm'} className='noselect' />
         </Box>
         <Grid
           templateColumns='100%'
