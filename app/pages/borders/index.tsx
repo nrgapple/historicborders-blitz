@@ -95,7 +95,15 @@ const Viewer = ({ years, user, id, config }: DataProps) => {
           <Box className='noselect'>🔭</Box>
         </Box>
         <Box className='fullscreen' style={{ top: hide ? '73px' : '155px' }}>
-          <Avatar size={'sm'} className='noselect' />
+          <Avatar
+            size={'sm'}
+            shadow='sm'
+            className='noselect'
+            onClick={e => {
+              e.stopPropagation()
+              console.log(e)
+            }}
+          />
         </Box>
         <Grid
           templateColumns='100%'
