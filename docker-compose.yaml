@@ -9,11 +9,5 @@ services:
     ports:
       - '5432:5432'
 
-  db-test:
-    image: postgres:latest
-    env_file: ./.env.test.local
-    ports:
-      - 5433:5432
-
 volumes:
   data:

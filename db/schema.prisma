@@ -2,15 +2,31 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["interactiveTransactions", "fullTextSearch"]
 }
 
 // --------------------------------------
+
+model MapEvent {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  feature   Json
+  label     String
+  body      String
+  startDate DateTime
+  endDate   DateTime
+  isPublic  Boolean
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+}
 
 model User {
   id             Int      @id @default(autoincrement())
@@ -23,6 +39,7 @@ model User {
 
   tokens   Token[]
   sessions Session[]
+  MapEvent MapEvent[]
 }
 
 model Session {
@@ -56,10 +73,3 @@ model Token {
 
   @@unique([hashedToken, type])
 }
-
-// NOTE: It's highly recommended to use an enum for the token type
-//       but enums only work in Postgres.
-//       See: https://blitzjs.com/docs/database-overview#switch-to-postgre-sql
-// enum TokenType {
-//   RESET_PASSWORD
-// }

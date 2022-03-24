@@ -14,13 +14,6 @@ const MapContainer = () => {
   const [data] = useEditorMap()
   const [zoomValue, setZoomValue] = useState(2)
   const mapRef = useRef<MapboxGl.Map | undefined>(undefined)
-  const drawControlRef = useRef<DrawControl>(null)
-  /**
-   * @summary Reference to the drawer object. (Use for the current draw features)
-   * @example Use for the current draw features
-   */
-  const drawRef = useRef<Control | undefined>(undefined)
-  console.log({ data })
 
   return (
     <Box h='100%' w='100%'>
@@ -31,12 +24,6 @@ const MapContainer = () => {
         onStyleLoad={(map: MapboxGl.Map) => {
           mapRef.current = map
           map.resize()
-          if (drawControlRef.current) {
-            if (drawControlRef.current.draw) {
-              drawRef.current = drawControlRef.current.draw
-              console.log('draw', drawRef.current)
-            }
-          }
         }}
         onZoomEnd={map => {
           setZoomValue(map.getZoom())
@@ -72,7 +59,6 @@ const MapContainer = () => {
           </>
         )}
         <DrawControl
-          ref={drawControlRef}
           controls={{
             point: false,
             polygon: true,
@@ -84,8 +70,8 @@ const MapContainer = () => {
           onDrawCreate={event => {
             console.log({ event })
           }}
-          onDrawUpdate={event => {
-            console.log({ update: event })
+          onDrawUpdate={update => {
+            console.log({ update })
           }}
         />
       </Map>
