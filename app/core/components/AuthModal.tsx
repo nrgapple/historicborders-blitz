@@ -22,7 +22,9 @@ export const AuthModal = ({ isOpen, toggle, title }: Props) => {
         <ModalHeader>{title}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Button>Google</Button>
+          <Button as={'a'} href={'/api/auth/google'}>
+            Google
+          </Button>
         </ModalBody>
       </ModalContent>
     </Modal>

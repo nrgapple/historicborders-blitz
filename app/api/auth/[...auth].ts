@@ -3,15 +3,16 @@ import db from 'db'
 import { OAuth2Strategy } from 'passport-google-oauth'
 
 export default passportAuth({
-  successRedirectUrl: '/',
-  errorRedirectUrl: '/',
+  successRedirectUrl: '/borders',
+  errorRedirectUrl: '/borders',
   strategies: [
     {
+      authenticateOptions: { scope: 'email profile' },
       strategy: new OAuth2Strategy(
         {
           clientID: process.env.GOOGLE_CLIENT_ID ?? '',
           clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? '',
-          callbackURL: '/',
+          callbackURL: 'http://localhost:3000/api/auth/google/callback',
         },
         async function (_accessToken, _refreshToken, profile, done) {
           const email = profile.emails && profile.emails[0]?.value

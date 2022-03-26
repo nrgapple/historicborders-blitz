@@ -1,6 +1,6 @@
 import { GetServerSideProps } from 'next'
 import { Octokit } from '@octokit/core'
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { ConfigType, GithubFileInfoType, MapMode } from 'app/core/util/types'
 import useKeyPress from 'app/core/hooks/useKeyPress'
 import {
@@ -96,7 +96,9 @@ const Viewer = ({ years, user, id, config }: DataProps) => {
           <Box className='noselect'>🔭</Box>
         </Box>
         <Box className='fullscreen' style={{ top: hide ? '73px' : '155px' }}>
-          <UserMenu />
+          <Suspense fallback={false}>
+            <UserMenu />
+          </Suspense>
         </Box>
         <Grid
           templateColumns='100%'
