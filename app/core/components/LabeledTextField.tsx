@@ -2,8 +2,8 @@ import { forwardRef, PropsWithoutRef, ComponentPropsWithoutRef } from 'react'
 import { useField, useFormikContext, ErrorMessage } from 'formik'
 
 import { Input } from '@chakra-ui/input'
-import { FormErrorMessage, FormLabel } from '@chakra-ui/form-control'
-import { Box } from '@chakra-ui/react'
+import { FormLabel } from '@chakra-ui/form-control'
+import { Text } from '@chakra-ui/react'
 
 export interface LabeledTextFieldProps extends ComponentPropsWithoutRef<typeof Input> {
   /** Field name. */
@@ -16,23 +16,18 @@ export interface LabeledTextFieldProps extends ComponentPropsWithoutRef<typeof I
 }
 
 export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldProps>(
-  ({ name, label, outerProps, ...props }, ref) => {
+  ({ name, label, ...props }, ref) => {
     const [input] = useField(name)
     const { isSubmitting } = useFormikContext()
 
     return (
-      <Box {...outerProps}>
+      <>
         <FormLabel>
           {label}
           <Input {...input} disabled={isSubmitting} {...props} ref={ref} />
         </FormLabel>
-        <ErrorMessage name={name}>
-          {msg => {
-            console.log({ msg })
-            return <FormErrorMessage>{msg}</FormErrorMessage>
-          }}
-        </ErrorMessage>
-      </Box>
+        <ErrorMessage name={name}>{msg => <Text color={'red'}>{msg}</Text>}</ErrorMessage>
+      </>
     )
   }
 )

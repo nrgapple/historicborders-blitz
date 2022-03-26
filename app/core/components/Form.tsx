@@ -2,7 +2,7 @@ import { useState, ReactNode, PropsWithoutRef } from 'react'
 import { Formik, FormikProps } from 'formik'
 import { validateZodSchema } from 'blitz'
 import { z } from 'zod'
-import { Button, FormErrorMessage } from '@chakra-ui/react'
+import { Button, Text } from '@chakra-ui/react'
 
 export interface FormProps<S extends z.ZodType<any, any>>
   extends Omit<PropsWithoutRef<JSX.IntrinsicElements['form']>, 'onSubmit'> {
@@ -52,10 +52,10 @@ export function Form<S extends z.ZodType<any, any>>({
           {/* Form fields supplied as children are rendered here */}
           {children}
 
-          {formError && <FormErrorMessage>{formError}</FormErrorMessage>}
+          {formError && <Text color='red'>{formError}</Text>}
 
           {submitText && (
-            <Button type='submit' isLoading={isSubmitting} variant='outline'>
+            <Button mt='2' type='submit' isLoading={isSubmitting} variant='outline'>
               {submitText}
             </Button>
           )}

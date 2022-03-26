@@ -36,7 +36,7 @@ export const LoginForm = (props: LoginFormProps) => {
     >
       <LabeledTextField name='email' label='Email' placeholder='Email' />
       <LabeledTextField name='password' label='Password' placeholder='Password' type='password' />
-      <Box w='100%' pb='2'>
+      <Box w='100%'>
         <Link href={Routes.ForgotPasswordPage()} passHref>
           <ChakraLink>Forgot your password?</ChakraLink>
         </Link>
