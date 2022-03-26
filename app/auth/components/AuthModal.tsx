@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react'
 import LoginForm from 'app/auth/components/LoginForm'
 import SignupForm from 'app/auth/components/SignupForm'
-import { FaGoogle } from 'react-icons/fa'
+import { FaGithub, FaGoogle } from 'react-icons/fa'
 
 export type AuthType = 'signin' | 'signup'
 
@@ -44,6 +44,18 @@ export const AuthModal = ({ isOpen, toggle, type }: Props) => {
         <ModalCloseButton />
         <ModalBody>
           <VStack p='5'>
+            <Button
+              color={'white'}
+              as={'a'}
+              href={'/api/auth/github'}
+              minW='240px'
+              _hover={{ background: '#333', shadow: 'lg' }}
+              _active={{ background: '#333' }}
+              background={'#333'}
+              leftIcon={<FaGithub color='white' />}
+            >
+              GitHub
+            </Button>
             <Button
               as={'a'}
               href={'/api/auth/google'}

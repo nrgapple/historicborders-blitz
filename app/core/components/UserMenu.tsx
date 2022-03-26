@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react'
 import { useMutation } from 'blitz'
 import { useCurrentUser } from '../hooks/useCurrentUser'
-import { AuthModal, AuthType } from './AuthModal'
+import { AuthModal, AuthType } from '../../auth/components/AuthModal'
 import logout from 'app/auth/mutations/logout'
 import { useState } from 'react'
 import { FiLogIn, FiLogOut, FiUserPlus } from 'react-icons/fi'
