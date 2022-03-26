@@ -27,6 +27,7 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { MapEventForm } from 'app/map-events/components/MapEventForm'
+import { UserMenu } from 'app/core/components/UserMenu'
 
 interface DataProps {
   years: number[]
@@ -95,15 +96,7 @@ const Viewer = ({ years, user, id, config }: DataProps) => {
           <Box className='noselect'>🔭</Box>
         </Box>
         <Box className='fullscreen' style={{ top: hide ? '73px' : '155px' }}>
-          <Avatar
-            size={'sm'}
-            shadow='sm'
-            className='noselect'
-            onClick={e => {
-              e.stopPropagation()
-              console.log(e)
-            }}
-          />
+          <UserMenu />
         </Box>
         <Grid
           templateColumns='100%'

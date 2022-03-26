@@ -1,4 +1,4 @@
-import { Input, VStack } from '@chakra-ui/react'
+import { VStack } from '@chakra-ui/react'
 import createMapEventResolver from 'app/map-events/mutations/createMapEvent'
 import { CreateMapEventSchema } from 'app/map-events/mutations/validations'
 import { useMutation } from 'blitz'
