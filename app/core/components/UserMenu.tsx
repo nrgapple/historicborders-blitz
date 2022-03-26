@@ -9,6 +9,7 @@ import {
   MenuList,
   Text,
   useDisclosure,
+  VStack,
 } from '@chakra-ui/react'
 import { useMutation } from 'blitz'
 import { useCurrentUser } from '../hooks/useCurrentUser'
@@ -20,7 +21,7 @@ export const UserMenu = () => {
   const user = useCurrentUser()
   const [logoutMutation] = useMutation(logout)
   const { isOpen, onToggle } = useDisclosure()
-  const [authType, setAuthType] = useState<AuthType>()
+  const [authType, setAuthType] = useState<AuthType>('signin')
 
   const handleAuth = (_authType: AuthType) => {
     setAuthType(_authType)
@@ -59,6 +60,15 @@ export const UserMenu = () => {
             </>
           ) : (
             <>
+              <MenuGroup>
+                <VStack p='4'>
+                  <Text>Historic Borders</Text>
+                  <Text color={'gray'} fontSize={'sm'}>
+                    History through a telescope
+                  </Text>
+                </VStack>
+              </MenuGroup>
+              <MenuDivider />
               <MenuItem onClick={() => handleAuth('signin')}>Sign in</MenuItem>
               <MenuItem onClick={() => handleAuth('signup')}>Sign up</MenuItem>
             </>

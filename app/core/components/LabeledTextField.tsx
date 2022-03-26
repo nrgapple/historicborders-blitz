@@ -26,7 +26,12 @@ export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldPro
           {label}
           <Input {...input} disabled={isSubmitting} {...props} ref={ref} />
         </FormLabel>
-        <ErrorMessage name={name}>{msg => <FormErrorMessage>{msg}</FormErrorMessage>}</ErrorMessage>
+        <ErrorMessage name={name}>
+          {msg => {
+            console.log({ msg })
+            return <FormErrorMessage>{msg}</FormErrorMessage>
+          }}
+        </ErrorMessage>
       </Box>
     )
   }

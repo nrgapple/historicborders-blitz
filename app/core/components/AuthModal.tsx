@@ -8,6 +8,7 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
+  useToast,
   VStack,
 } from '@chakra-ui/react'
 import LoginForm from 'app/auth/components/LoginForm'
@@ -23,6 +24,18 @@ interface Props {
 }
 
 export const AuthModal = ({ isOpen, toggle, type }: Props) => {
+  const toast = useToast()
+
+  const onSuccess = () => {
+    toast({
+      status: 'success',
+      title: 'Logged In',
+      duration: 3000,
+      isClosable: true,
+    })
+    toggle()
+  }
+
   return (
     <Modal isOpen={isOpen} onClose={toggle}>
       <ModalOverlay />
@@ -47,9 +60,9 @@ export const AuthModal = ({ isOpen, toggle, type }: Props) => {
               Or sign {type === 'signin' ? 'in' : 'up'} with credentials
             </Heading>
             {type === 'signin' ? (
-              <LoginForm onSuccess={toggle} />
+              <LoginForm onSuccess={onSuccess} />
             ) : (
-              <SignupForm onSuccess={toggle} />
+              <SignupForm onSuccess={onSuccess} />
             )}
           </VStack>
         </ModalBody>
