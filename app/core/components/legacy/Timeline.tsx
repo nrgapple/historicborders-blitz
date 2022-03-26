@@ -11,7 +11,7 @@ interface TimelineProps {
   years: number[]
 }
 
-const Timeline = ({ index, onChange, years, globe }: TimelineProps) => (
+const Timeline = ({ index, onChange, years }: TimelineProps) => (
   <Box color='black' textShadow='0px 0px 2px #6930c3' fontWeight='500' h='70px !important'>
     <Box
       textShadow='0px 0px 4px #64dfdf'
