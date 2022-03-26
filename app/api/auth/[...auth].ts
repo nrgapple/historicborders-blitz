@@ -3,8 +3,8 @@ import db from 'db'
 import { OAuth2Strategy } from 'passport-google-oauth'
 
 export default passportAuth({
-  successRedirectUrl: '/borders',
-  errorRedirectUrl: '/borders',
+  successRedirectUrl: '/',
+  errorRedirectUrl: '/',
   strategies: [
     {
       authenticateOptions: { scope: 'email profile' },

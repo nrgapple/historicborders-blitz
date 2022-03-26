@@ -1,272 +1,156 @@
-import { Suspense } from "react"
-import { Image, Link, BlitzPage, useMutation, Routes } from "blitz"
-import Layout from "app/core/layouts/Layout"
-import { useCurrentUser } from "app/core/hooks/useCurrentUser"
-import logout from "app/auth/mutations/logout"
-import logo from "public/logo.png"
+import { GetServerSideProps } from 'next'
+import { Octokit } from '@octokit/core'
+import { Suspense, useEffect, useState } from 'react'
+import { ConfigType, GithubFileInfoType, MapMode } from 'app/core/util/types'
+import useKeyPress from 'app/core/hooks/useKeyPress'
+import {
+  convertYearString,
+  getYearFromFile,
+  githubToken,
+  mapBCFormat,
+  mod,
+} from 'app/core/util/constants'
+import Timeline from 'app/core/components/legacy/Timeline'
+import MapContainer from 'app/core/components/legacy/ViewerMap'
+import Footer from 'app/core/components/legacy/Footer'
+import Layout from 'app/core/components/legacy/Layout'
+import {
+  Box,
+  Center,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  Grid,
+  Tooltip,
+  useDisclosure,
+} from '@chakra-ui/react'
+import { MapEventForm } from 'app/map-events/components/MapEventForm'
+import { UserMenu } from 'app/core/components/UserMenu'
 
-/*
- * This file is just for a pleasant getting started page for your new app.
- * You can delete everything in here and start from scratch if you like.
- */
-
-const UserInfo = () => {
-  const currentUser = useCurrentUser()
-  const [logoutMutation] = useMutation(logout)
-
-  if (currentUser) {
-    return (
-      <>
-        <button
-          className="button small"
-          onClick={async () => {
-            await logoutMutation()
-          }}
-        >
-          Logout
-        </button>
-        <div>
-          User id: <code>{currentUser.id}</code>
-          <br />
-          User role: <code>{currentUser.role}</code>
-        </div>
-      </>
-    )
-  } else {
-    return (
-      <>
-        <Link href={Routes.SignupPage()}>
-          <a className="button small">
-            <strong>Sign Up</strong>
-          </a>
-        </Link>
-        <Link href={Routes.LoginPage()}>
-          <a className="button small">
-            <strong>Login</strong>
-          </a>
-        </Link>
-      </>
-    )
-  }
+interface DataProps {
+  years: number[]
+  user: string
+  id: string
+  config: ConfigType
 }
 
-const Home: BlitzPage = () => {
+const Viewer = ({ years, user, id, config }: DataProps) => {
+  const [index, setIndex] = useState(0)
+  const [hide, setHide] = useState(false)
+  const aPress = useKeyPress('a')
+  const dPress = useKeyPress('d')
+  const { isOpen, onToggle } = useDisclosure()
+
+  useEffect(() => {
+    if (dPress) {
+      setIndex(mod(index + 1, years.length))
+    }
+  }, [dPress])
+
+  useEffect(() => {
+    if (aPress) {
+      setIndex(mod(index - 1, years.length))
+    }
+  }, [aPress])
+
+  if (!(years && user && id && config)) return <Box>Not a valid timeline. Check your url.</Box>
+
   return (
-    <div className="container">
-      <main>
-        <div className="logo">
-          <Image src={logo} alt="blitzjs" />
-        </div>
-        <p>
-          <strong>Congrats!</strong> Your app is ready, including user sign-up and log-in.
-        </p>
-        <div className="buttons" style={{ marginTop: "1rem", marginBottom: "1rem" }}>
-          <Suspense fallback="Loading...">
-            <UserInfo />
-          </Suspense>
-        </div>
-        <p>
-          <strong>
-            To add a new model to your app, <br />
-            run the following in your terminal:
-          </strong>
-        </p>
-        <pre>
-          <code>blitz generate all project name:string</code>
-        </pre>
-        <div style={{ marginBottom: "1rem" }}>(And select Yes to run prisma migrate)</div>
-        <div>
-          <p>
-            Then <strong>restart the server</strong>
-          </p>
-          <pre>
-            <code>Ctrl + c</code>
-          </pre>
-          <pre>
-            <code>blitz dev</code>
-          </pre>
-          <p>
-            and go to{" "}
-            <Link href="/projects">
-              <a>/projects</a>
-            </Link>
-          </p>
-        </div>
-        <div className="buttons" style={{ marginTop: "5rem" }}>
-          <a
-            className="button"
-            href="https://blitzjs.com/docs/getting-started?utm_source=blitz-new&utm_medium=app-template&utm_campaign=blitz-new"
-            target="_blank"
-            rel="noopener noreferrer"
+    <>
+      <Layout title={config.name} url={`https://historyborders.app`}>
+        <Drawer isOpen={isOpen} onClose={onToggle}>
+          <DrawerContent>
+            <DrawerCloseButton />
+            <DrawerBody>
+              <MapEventForm />
+            </DrawerBody>
+          </DrawerContent>
+        </Drawer>
+        <Tooltip placement='left' hasArrow label={hide ? 'Show Timeline' : 'Hide Timeline'}>
+          <Center
+            onClick={() => setHide(!hide)}
+            pos='absolute'
+            top={hide ? '16px' : '95px'}
+            right='15px'
+            h='40px'
+            w='40px'
+            zIndex={1000}
           >
-            Documentation
-          </a>
-          <a
-            className="button-outline"
-            href="https://github.com/blitz-js/blitz"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Github Repo
-          </a>
-          <a
-            className="button-outline"
-            href="https://discord.blitzjs.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Discord Community
-          </a>
-        </div>
-      </main>
-
-      <footer>
-        <a
-          href="https://blitzjs.com?utm_source=blitz-new&utm_medium=app-template&utm_campaign=blitz-new"
-          target="_blank"
-          rel="noopener noreferrer"
+            <Box fontSize={'35px'} textShadow='2px 2px 4px #252525' cursor={'pointer'}>
+              🔭
+            </Box>
+          </Center>
+        </Tooltip>
+        <Center
+          pos='absolute'
+          top={hide ? '73px' : '155px'}
+          right='15px'
+          h='40px'
+          w='40px'
+          zIndex={1000}
         >
-          Powered by Blitz.js
-        </a>
-      </footer>
-
-      <style jsx global>{`
-        @import url("https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;700&display=swap");
-
-        html,
-        body {
-          padding: 0;
-          margin: 0;
-          font-family: "Libre Franklin", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-            Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-        }
-
-        * {
-          -webkit-font-smoothing: antialiased;
-          -moz-osx-font-smoothing: grayscale;
-          box-sizing: border-box;
-        }
-        .container {
-          min-height: 100vh;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-
-        main {
-          padding: 5rem 0;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-
-        main p {
-          font-size: 1.2rem;
-        }
-
-        p {
-          text-align: center;
-        }
-
-        footer {
-          width: 100%;
-          height: 60px;
-          border-top: 1px solid #eaeaea;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          background-color: #45009d;
-        }
-
-        footer a {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        footer a {
-          color: #f4f4f4;
-          text-decoration: none;
-        }
-
-        .logo {
-          margin-bottom: 2rem;
-        }
-
-        .logo img {
-          width: 300px;
-        }
-
-        .buttons {
-          display: grid;
-          grid-auto-flow: column;
-          grid-gap: 0.5rem;
-        }
-        .button {
-          font-size: 1rem;
-          background-color: #6700eb;
-          padding: 1rem 2rem;
-          color: #f4f4f4;
-          text-align: center;
-        }
-
-        .button.small {
-          padding: 0.5rem 1rem;
-        }
-
-        .button:hover {
-          background-color: #45009d;
-        }
-
-        .button-outline {
-          border: 2px solid #6700eb;
-          padding: 1rem 2rem;
-          color: #6700eb;
-          text-align: center;
-        }
-
-        .button-outline:hover {
-          border-color: #45009d;
-          color: #45009d;
-        }
-
-        pre {
-          background: #fafafa;
-          border-radius: 5px;
-          padding: 0.75rem;
-          text-align: center;
-        }
-        code {
-          font-size: 0.9rem;
-          font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
-            Bitstream Vera Sans Mono, Courier New, monospace;
-        }
-
-        .grid {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-wrap: wrap;
-
-          max-width: 800px;
-          margin-top: 3rem;
-        }
-
-        @media (max-width: 600px) {
-          .grid {
-            width: 100%;
-            flex-direction: column;
-          }
-        }
-      `}</style>
-    </div>
+          <Suspense fallback={false}>
+            <UserMenu />
+          </Suspense>
+        </Center>
+        <Grid
+          templateColumns='100%'
+          templateRows={hide ? 'auto' : 'auto 0px'}
+          h='full'
+          alignItems='stretch'
+        >
+          {!hide && (
+            <>
+              <div className='timeline-container'>
+                <Timeline index={index} onChange={setIndex} years={years} />
+              </div>
+            </>
+          )}
+          <MapContainer
+            year={convertYearString(mapBCFormat, years[index]!)}
+            fullscreen={hide}
+            user={user}
+            id={id}
+            mode={MapMode.VIEW}
+          />
+          {!hide && <Footer dataUrl={`https://github.com/aourednik/historical-basemaps`} />}
+        </Grid>
+      </Layout>
+    </>
   )
 }
 
-Home.suppressFirstRenderFlicker = true
-Home.getLayout = (page) => <Layout title="Home">{page}</Layout>
+export default Viewer
 
-export default Home
+export const getServerSideProps: GetServerSideProps<DataProps> = async () => {
+  const user = 'aourednik'
+  const id = 'historical-basemaps'
+  try {
+    const octokit = new Octokit({ auth: githubToken })
+    const config: ConfigType = {
+      name: 'Historic Borders',
+      description: 'example.',
+    }
+    const fileResp = await octokit.request(`/repos/${user}/${id}/contents/geojson`)
+    const files: GithubFileInfoType[] = fileResp.data
+    const years = files
+      .filter(x => x.name.endsWith('.geojson'))
+      .map(x => getYearFromFile(x.name))
+      .sort((a, b) => a - b)
+      .filter(x => !isNaN(x))
+    return {
+      props: {
+        years,
+        user: user,
+        id: id,
+        config,
+      } as DataProps,
+    }
+  } catch (e) {
+    console.log(e)
+  }
+  return {
+    props: {} as DataProps,
+  }
+}
