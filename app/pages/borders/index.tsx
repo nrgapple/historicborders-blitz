@@ -10,21 +10,20 @@ import {
   mapBCFormat,
   mod,
 } from 'app/core/util/constants'
-import ReactTooltip from 'react-tooltip'
 import Timeline from 'app/core/components/legacy/Timeline'
 import MapContainer from 'app/core/components/legacy/ViewerMap'
 import Footer from 'app/core/components/legacy/Footer'
 import Layout from 'app/core/components/legacy/Layout'
 import {
-  Avatar,
   Box,
+  Center,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
   DrawerContent,
   Grid,
+  Tooltip,
   useDisclosure,
-  VStack,
 } from '@chakra-ui/react'
 import { MapEventForm } from 'app/map-events/components/MapEventForm'
 import { UserMenu } from 'app/core/components/UserMenu'
@@ -39,15 +38,9 @@ interface DataProps {
 const Viewer = ({ years, user, id, config }: DataProps) => {
   const [index, setIndex] = useState(0)
   const [hide, setHide] = useState(false)
-  const [mounted, setMounted] = useState(false)
-  const isMobile = typeof window !== 'undefined' ? /Mobi|Android/i.test(navigator.userAgent) : false
   const aPress = useKeyPress('a')
   const dPress = useKeyPress('d')
   const { isOpen, onToggle } = useDisclosure()
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
 
   useEffect(() => {
     if (dPress) {
@@ -74,32 +67,33 @@ const Viewer = ({ years, user, id, config }: DataProps) => {
             </DrawerBody>
           </DrawerContent>
         </Drawer>
-        {mounted && (
-          <ReactTooltip
-            resizeHide={false}
-            id='fullscreenTip'
-            place='left'
-            effect='solid'
-            globalEventOff={isMobile ? 'click' : undefined}
+        <Tooltip placement='left' hasArrow label={hide ? 'Show Timeline' : 'Hide Timeline'}>
+          <Center
+            onClick={() => setHide(!hide)}
+            pos='absolute'
+            top={hide ? '16px' : '95px'}
+            right='15px'
+            h='40px'
+            w='40px'
+            zIndex={1000}
           >
-            {hide ? 'Show Timeline' : 'Hide Timeline'}
-          </ReactTooltip>
-        )}
-        <Box
-          data-tip
-          data-for='fullscreenTip'
-          data-delay-show='300'
-          className='fullscreen'
-          onClick={() => setHide(!hide)}
-          style={{ top: hide ? '16px' : '95px' }}
+            <Box fontSize={'35px'} textShadow='2px 2px 4px #252525' cursor={'pointer'}>
+              🔭
+            </Box>
+          </Center>
+        </Tooltip>
+        <Center
+          pos='absolute'
+          top={hide ? '73px' : '155px'}
+          right='15px'
+          h='40px'
+          w='40px'
+          zIndex={1000}
         >
-          <Box className='noselect'>🔭</Box>
-        </Box>
-        <Box className='fullscreen' style={{ top: hide ? '73px' : '155px' }}>
           <Suspense fallback={false}>
             <UserMenu />
           </Suspense>
-        </Box>
+        </Center>
         <Grid
           templateColumns='100%'
           templateRows={hide ? 'auto' : 'auto 0px'}

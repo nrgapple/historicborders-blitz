@@ -16,6 +16,7 @@ export default passportAuth({
         },
         async function (_accessToken, _refreshToken, profile, done) {
           const email = profile.emails && profile.emails[0]?.value
+          const image = profile.photos && profile.photos[0]?.value
 
           if (!email) {
             return done(new Error("Google Oath2 response doesn't have an email."))
@@ -26,13 +27,15 @@ export default passportAuth({
             create: {
               email,
               name: profile.displayName,
+              image,
             },
-            update: { email },
+            update: { email, image },
           })
 
           const publicData = {
             userId: user.id,
             roles: [user.role],
+            image: user.image,
             source: 'google',
           }
 

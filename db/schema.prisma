@@ -36,6 +36,7 @@ model User {
   updatedAt      DateTime @updatedAt
   name           String?
   email          String   @unique
+  image          String?
   hashedPassword String?
   role           String   @default("USER")
 
@@ -60,11 +61,11 @@ model Session {
 }
 
 model Token {
-  id          Int       @id @default(autoincrement())
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
   hashedToken String
-  type        TokenType
+  type        String
   expiresAt   DateTime
   sentTo      String
 
@@ -72,9 +73,4 @@ model Token {
   userId Int
 
   @@unique([hashedToken, type])
-}
-
-enum TokenType {
-  RESET_PASSWORD
-  VERFIY_EMAIL
 }

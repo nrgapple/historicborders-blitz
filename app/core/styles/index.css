@@ -27,21 +27,6 @@ body {
   height: 100%;
 }
 
-.fullscreen {
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  top: 165px;
-  right: 15px;
-  height: 40px;
-  width: 40px;
-  font-size: 35px;
-  z-index: 1000;
-  cursor: pointer;
-  text-shadow: 2px 2px 4px #252525;
-}
-
 .logo {
   color: #64dfdf;
   font-weight: 500;
@@ -64,16 +49,6 @@ body {
 
 .help div {
   padding: 8px;
-}
-
-.noselect {
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
-  -moz-user-select: none; /* Old versions of Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-  user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome, Edge, Opera and Firefox */
 }
 
 a {
