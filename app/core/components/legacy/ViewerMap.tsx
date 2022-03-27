@@ -2,10 +2,11 @@ import { GeoJSONLayer, Popup } from 'react-mapbox-gl'
 import MapboxGl from 'mapbox-gl'
 import Map from '../../util/ReactMapBoxGl'
 import 'mapbox-gl/dist/mapbox-gl.css'
-import { forwardRef, useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useData } from 'app/core/hooks/useData'
 import { useWikiData } from 'app/core/hooks/useWiki'
 import { MapMode } from 'app/core/util/types'
+import { Box, Text, VStack } from '@chakra-ui/react'
 interface MapContainerProps {
   year: string
   user: string
@@ -30,7 +31,7 @@ const MapContainer = ({ year, fullscreen, user, id, mode }: MapContainerProps) =
   }, [fullscreen])
 
   return (
-    <div className='map-grid' ref={parentRef}>
+    <Box ref={parentRef}>
       <Map
         className='map'
         zoom={[zoomValue]}
@@ -54,16 +55,9 @@ const MapContainer = ({ year, fullscreen, user, id, mode }: MapContainerProps) =
                 }}
                 coordinates={popupPos}
               >
-                <div
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    color: 'black',
-                    overflow: 'scroll',
-                  }}
-                >
-                  {wikiInfo}
-                </div>
+                <VStack h='100%' w='100%' maxH='250px' overflowY='scroll'>
+                  <Text>{wikiInfo}</Text>
+                </VStack>
               </Popup>
             )}
             <GeoJSONLayer
@@ -99,7 +93,7 @@ const MapContainer = ({ year, fullscreen, user, id, mode }: MapContainerProps) =
           </>
         )}
       </Map>
-    </div>
+    </Box>
   )
 }
 

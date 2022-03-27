@@ -2,8 +2,8 @@
   "name": "historicborders-blitz",
   "version": "1.0.0",
   "scripts": {
-    "predev": "docker-compose up -d",
-    "dev": "blitz dev",
+    "dev": "docker-compose up -d && blitz dev",
+    "stopdev": "docker-compose down",
     "build": "blitz build",
     "start": "blitz start",
     "studio": "blitz prisma studio",
