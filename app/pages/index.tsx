@@ -14,18 +14,7 @@ import Timeline from 'app/core/components/legacy/Timeline'
 import MapContainer from 'app/core/components/legacy/ViewerMap'
 import Footer from 'app/core/components/legacy/Footer'
 import Layout from 'app/core/components/legacy/Layout'
-import {
-  Box,
-  Center,
-  Drawer,
-  DrawerBody,
-  DrawerCloseButton,
-  DrawerContent,
-  Grid,
-  Tooltip,
-  useDisclosure,
-} from '@chakra-ui/react'
-import { MapEventForm } from 'app/map-events/components/MapEventForm'
+import { Box, Center, Grid, Tooltip, useDisclosure } from '@chakra-ui/react'
 import { UserMenu } from 'app/core/components/UserMenu'
 
 interface DataProps {
@@ -40,7 +29,6 @@ const Viewer = ({ years, user, id, config }: DataProps) => {
   const [hide, setHide] = useState(false)
   const aPress = useKeyPress('a')
   const dPress = useKeyPress('d')
-  const { isOpen, onToggle } = useDisclosure()
 
   useEffect(() => {
     if (dPress) {
@@ -59,14 +47,6 @@ const Viewer = ({ years, user, id, config }: DataProps) => {
   return (
     <>
       <Layout title={config.name} url={`https://historyborders.app`}>
-        <Drawer isOpen={isOpen} onClose={onToggle}>
-          <DrawerContent>
-            <DrawerCloseButton />
-            <DrawerBody>
-              <MapEventForm />
-            </DrawerBody>
-          </DrawerContent>
-        </Drawer>
         <Tooltip placement='left' hasArrow label={hide ? 'Show Timeline' : 'Hide Timeline'}>
           <Center
             onClick={() => setHide(!hide)}
@@ -102,9 +82,9 @@ const Viewer = ({ years, user, id, config }: DataProps) => {
         >
           {!hide && (
             <>
-              <div className='timeline-container'>
+              <Box className='timeline-container'>
                 <Timeline index={index} onChange={setIndex} years={years} />
-              </div>
+              </Box>
             </>
           )}
           <MapContainer

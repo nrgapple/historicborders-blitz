@@ -18,12 +18,14 @@ import { useCurrentUser } from '../hooks/useCurrentUser'
 import { AuthModal, AuthType } from '../../auth/components/AuthModal'
 import logout from 'app/auth/mutations/logout'
 import { useState } from 'react'
-import { FiLogIn, FiLogOut, FiUserPlus } from 'react-icons/fi'
+import { FiEdit, FiLogIn, FiLogOut, FiUserPlus } from 'react-icons/fi'
+import { EditDrawer } from './EditDrawer'
 
 export const UserMenu = () => {
   const user = useCurrentUser()
   const [logoutMutation] = useMutation(logout)
   const { isOpen, onToggle } = useDisclosure()
+  const { isOpen: isDrawerOpen, onToggle: onToggleDrawer } = useDisclosure()
   const [authType, setAuthType] = useState<AuthType>('signin')
 
   const handleAuth = (_authType: AuthType) => {
@@ -53,6 +55,9 @@ export const UserMenu = () => {
                 </Center>
               </MenuGroup>
               <MenuDivider />
+              <MenuItem onClick={onToggleDrawer} icon={<Icon as={FiEdit} />}>
+                Edit
+              </MenuItem>
               <MenuItem
                 icon={<Icon as={FiLogOut} />}
                 onClick={async () => {
@@ -84,6 +89,7 @@ export const UserMenu = () => {
         </MenuList>
       </Menu>
       <AuthModal isOpen={isOpen} toggle={onToggle} type={authType} />
+      <EditDrawer isOpen={isDrawerOpen} onToggle={onToggleDrawer} />
     </>
   )
 }
