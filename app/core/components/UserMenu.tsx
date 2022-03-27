@@ -3,6 +3,7 @@ import {
   Center,
   Heading,
   Icon,
+  IconButton,
   Menu,
   MenuButton,
   MenuDivider,
@@ -20,6 +21,7 @@ import logout from 'app/auth/mutations/logout'
 import { useState } from 'react'
 import { FiEdit, FiLogIn, FiLogOut, FiUserPlus } from 'react-icons/fi'
 import { EditDrawer } from './EditDrawer'
+import { HamburgerIcon } from '@chakra-ui/icons'
 
 export const UserMenu = () => {
   const user = useCurrentUser()
@@ -37,11 +39,11 @@ export const UserMenu = () => {
     <>
       <Menu autoSelect={false}>
         {user ? (
-          <MenuButton userSelect={'none'}>
+          <MenuButton>
             <Avatar size={'sm'} name={user.name ?? user.email} src={user.image ?? ''} />
           </MenuButton>
         ) : (
-          <MenuButton userSelect={'none'}>Join</MenuButton>
+          <MenuButton as={IconButton} icon={<HamburgerIcon />} background='transparent' />
         )}
         <MenuList>
           {user ? (
