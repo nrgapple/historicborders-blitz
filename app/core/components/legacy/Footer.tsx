@@ -1,3 +1,5 @@
+import { Link, Text, VStack } from '@chakra-ui/react'
+
 interface FooterProps {
   dataUrl?: string
 }
@@ -5,23 +7,20 @@ interface FooterProps {
 const Footer = ({
   dataUrl = 'https://github.com/nrgapple/historicborders-timeline-example',
 }: FooterProps) => (
-  <div className='footer'>
-    <div className='logo'>🌎 HistoricBorders.app</div>
-    <div className='footer-right'>
-      <div>
-        Data from <a href={dataUrl}>here</a>.
-        {/* Create your own data{' '}
-      <a href="https://github.com/nrgapple/historicborders-timeline-example">
-        here
-      </a>{' '} */}
-      </div>
-      <div>
-        <a href='https://github.com/nrgapple/historic-country-borders-app'>
-          ⭐️ Star this on Github!
-        </a>
-      </div>
-    </div>
-  </div>
+  <footer>
+    <VStack align={'end'} pos='absolute' right={2} bottom={2} textShadow='2px 2px 4px #252525'>
+      <Link href={dataUrl} isExternal>
+        Data from here
+      </Link>
+      <Link
+        mt={'0 !important'}
+        href='https://github.com/nrgapple/historic-country-borders-app'
+        isExternal
+      >
+        ⭐️ Star this on Github!
+      </Link>
+    </VStack>
+  </footer>
 )
 
 export default Footer

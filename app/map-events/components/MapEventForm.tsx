@@ -30,6 +30,7 @@ export const MapEventForm = ({ feature, startDate, endDate }: Props) => {
     >
       <LabeledTextField name='label' label='label' placeholder='label' />
       <LabeledTextField name='body' label='body' placeholder='body' />
+      <LabeledTextField name='startDate' label='start date' type='date' />
     </Form>
   )
 }

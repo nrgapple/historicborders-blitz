@@ -35,47 +35,8 @@ body {
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
-.help {
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  top: 51px;
-  right: 16px;
-  z-index: 1500;
-  background-color: #6930c3;
-  box-shadow: 2px 2px 4px #252525;
-}
-
-.help div {
-  padding: 8px;
-}
-
 a {
   color: #80ffdb;
-}
-
-.footer {
-  position: absolute;
-  display: flex;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
-  z-index: 1000;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-
-  margin: 5px;
-}
-
-.footer-right {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  justify-content: center;
-  font-size: 12px;
-  text-shadow: 2px 2px 4px #252525;
 }
 
 .map {
