@@ -48,14 +48,8 @@ const MapContainer = ({ year, fullscreen, user, id, mode }: MapContainerProps) =
         {data && (
           <>
             {selectedPlace && (
-              <Popup
-                style={{
-                  width: '250px',
-                  height: '250px',
-                }}
-                coordinates={popupPos}
-              >
-                <VStack h='100%' w='100%' maxH='250px' overflowY='scroll'>
+              <Popup coordinates={popupPos}>
+                <VStack w='250px' maxH='250px' overflowY='scroll'>
                   <Text>{wikiInfo}</Text>
                 </VStack>
               </Popup>
