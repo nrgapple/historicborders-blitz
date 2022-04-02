@@ -11,9 +11,7 @@
 
 Go to [historicborders.app](https://historicborders.app/) to view a map. Create an account through GitHub, Google or credentials.
 
-## Production Arcitecutre
-
-(Incase you want to self host your own version)
+## Arcitecutre
 
 ![Untitled-2022-04-02-1104](https://user-images.githubusercontent.com/30830407/161389943-8985ab50-dfed-4122-854f-4f9965080a49.png)
 
